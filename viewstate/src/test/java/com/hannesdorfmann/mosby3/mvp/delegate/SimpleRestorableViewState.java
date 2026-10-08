@@ -18,7 +18,7 @@
 package com.hannesdorfmann.mosby3.mvp.delegate;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import com.hannesdorfmann.mosby3.mvp.MvpView;
 import com.hannesdorfmann.mosby3.mvp.viewstate.RestorableViewState;
 

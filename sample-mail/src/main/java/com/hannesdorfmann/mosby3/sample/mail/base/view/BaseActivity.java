@@ -18,7 +18,7 @@
 package com.hannesdorfmann.mosby3.sample.mail.base.view;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.ButterKnife;
 import icepick.Icepick;
 

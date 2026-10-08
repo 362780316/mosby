@@ -17,8 +17,8 @@
 package com.hannesdorfmann.mosby3.mvp;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import com.hannesdorfmann.mosby3.mvp.delegate.ActivityMvpDelegate;
 import com.hannesdorfmann.mosby3.mvp.delegate.ActivityMvpDelegateImpl;
 

@@ -19,7 +19,7 @@ package com.hannesdorfmann.mosby3.utils.fragment.integrationtest.backstack;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import com.hannesdorfmann.mosby3.utils.fragment.integrationtest.R;
 
 public class ReplaceFragmentTransactionActivity extends AppCompatActivity {

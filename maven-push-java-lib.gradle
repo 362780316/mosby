@@ -14,11 +14,19 @@
  * limitations under the License.
  */
 
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 def isReleaseBuild() {
-  return VERSION_NAME.contains("SNAPSHOT") == false
+  return rootProject.ext.publishedVersion.contains("SNAPSHOT") == false
+}
+
+def shouldSignPublication() {
+  return isReleaseBuild() && gradle.taskGraph.allTasks.any {
+    it.name.startsWith('publish') &&
+        it.name != 'publishToMavenLocal' &&
+        !it.name.endsWith('ToMavenLocal')
+  }
 }
 
 def getReleaseRepositoryUrl() {
@@ -39,90 +47,78 @@ def getRepositoryPassword() {
   return hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : ""
 }
 
-afterEvaluate { project ->
-  uploadArchives {
+def configurePom = { pom ->
+  pom.name = POM_NAME
+  pom.description = POM_DESCRIPTION
+  pom.url = POM_URL
+  pom.packaging = POM_PACKAGING
+
+  pom.scm {
+    url = POM_SCM_URL
+    connection = POM_SCM_CONNECTION
+    developerConnection = POM_SCM_DEV_CONNECTION
+  }
+
+  pom.licenses {
+    license {
+      name = POM_LICENCE_NAME
+      url = POM_LICENCE_URL
+      distribution = POM_LICENCE_DIST
+    }
+  }
+
+  pom.developers {
+    developer {
+      id = POM_DEVELOPER_ID
+      name = POM_DEVELOPER_NAME
+    }
+  }
+}
+
+java {
+  withSourcesJar()
+  withJavadocJar()
+}
+
+tasks.withType(Javadoc).configureEach {
+  failOnError = false
+
+  if (JavaVersion.current().isJava8Compatible()) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+  }
+}
+
+afterEvaluate {
+  publishing {
+    publications {
+      mavenJava(MavenPublication) {
+        from components.java
+
+        groupId = rootProject.ext.publishedGroupId
+        artifactId = POM_ARTIFACT_ID
+        version = rootProject.ext.publishedVersion
+
+        pom(configurePom)
+      }
+    }
+
     repositories {
-      mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-        pom.groupId = GROUP
-        pom.artifactId = POM_ARTIFACT_ID
-        pom.version = VERSION_NAME
-
-        repository(url: getReleaseRepositoryUrl()) {
-          authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
-        }
-        snapshotRepository(url: getSnapshotRepositoryUrl()) {
-          authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
-        }
-
-        pom.project {
-          name POM_NAME
-          packaging POM_PACKAGING
-          description POM_DESCRIPTION
-          url POM_URL
-
-          scm {
-            url POM_SCM_URL
-            connection POM_SCM_CONNECTION
-            developerConnection POM_SCM_DEV_CONNECTION
-          }
-
-          licenses {
-            license {
-              name POM_LICENCE_NAME
-              url POM_LICENCE_URL
-              distribution POM_LICENCE_DIST
-            }
-          }
-
-          developers {
-            developer {
-              id POM_DEVELOPER_ID
-              name POM_DEVELOPER_NAME
-            }
-          }
-        }
-
-
-        // Resolve dependencies to other modules
-        pom.whenConfigured { pom ->
-          pom.dependencies.findAll { dep -> dep.groupId == rootProject.name }.collect { dep ->
-            dep.groupId = pom.groupId = project.GROUP
-            dep.version = pom.version = project.VERSION_NAME
-          }
+      maven {
+        url = uri(isReleaseBuild() ? getReleaseRepositoryUrl() : getSnapshotRepositoryUrl())
+        credentials {
+          username = getRepositoryUsername()
+          password = getRepositoryPassword()
         }
       }
     }
   }
 
   signing {
-    required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
-    sign configurations.archives
+    required { shouldSignPublication() }
+    sign publishing.publications.mavenJava
   }
 
-  task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc
-
-    if (JavaVersion.current().isJava8Compatible()) {
-      allprojects {
-        tasks.withType(Javadoc) {
-          options.addStringOption('Xdoclint:none', '-quiet')
-        }
-      }
-    }
-
+  tasks.register('uploadArchives') {
+    dependsOn tasks.named('publish')
   }
-
-  task sourceJar (type : Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-  }
-
-  artifacts {
-    archives javadocJar
-    archives sourceJar
-  }
-
 }

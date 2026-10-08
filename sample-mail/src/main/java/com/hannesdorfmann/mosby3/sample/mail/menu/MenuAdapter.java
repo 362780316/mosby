@@ -19,10 +19,7 @@ package com.hannesdorfmann.mosby3.sample.mail.menu;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.hannesdorfmann.annotatedadapter.annotation.ViewField;
-import com.hannesdorfmann.annotatedadapter.annotation.ViewType;
+import androidx.recyclerview.widget.RecyclerView;
 import com.hannesdorfmann.mosby3.sample.mail.R;
 import com.hannesdorfmann.mosby3.sample.mail.base.view.ListAdapter;
 import com.hannesdorfmann.mosby3.sample.mail.model.mail.Label;
@@ -31,7 +28,10 @@ import java.util.List;
 /**
  * @author Hannes Dorfmann
  */
-public class MenuAdapter extends ListAdapter<List<Label>> implements MenuAdapterBinder {
+public class MenuAdapter extends ListAdapter<List<Label>> {
+
+  public static final int VIEW_TYPE_MENU_ITEM = 0;
+  public static final int VIEW_TYPE_STATISTICS_ITEM = 1;
 
   public interface LabelClickListener {
     public void onLabelClicked(Label label);
@@ -39,25 +39,10 @@ public class MenuAdapter extends ListAdapter<List<Label>> implements MenuAdapter
     public void onStatisticsClicked();
   }
 
-  @ViewType(layout = R.layout.list_menu_item,
-      initMethod = true,
-      views = {
-          @ViewField(id = R.id.icon, name = "icon", type = ImageView.class),
-          @ViewField(id = R.id.name, name = "name", type = TextView.class),
-          @ViewField(id = R.id.unreadCount, name = "unread", type = TextView.class)
-      }) public final int menuItem = 0;
-
-  @ViewType(layout = R.layout.list_menu_statistics,
-      initMethod = true,
-      views = @ViewField(id = R.id.icon, name = "icon", type = ImageView.class)) public final int
-      statisticsItem = 1;
-
-  private Context context;
   private LabelClickListener listener;
 
   public MenuAdapter(Context context, LabelClickListener listener) {
     super(context);
-    this.context = context;
     this.listener = listener;
   }
 
@@ -70,15 +55,38 @@ public class MenuAdapter extends ListAdapter<List<Label>> implements MenuAdapter
   }
 
   @Override public int getItemViewType(int position) {
-    return position == getItemCount() - 1 ? statisticsItem : menuItem;
+    return position == getItemCount() - 1 ? VIEW_TYPE_STATISTICS_ITEM : VIEW_TYPE_MENU_ITEM;
   }
 
-  @Override public void initViewHolder(MenuAdapterHolders.MenuItemViewHolder vh, View view,
+  @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    if (viewType == VIEW_TYPE_STATISTICS_ITEM) {
+      View view = inflater.inflate(R.layout.list_menu_statistics, parent, false);
+      MenuAdapterHolders.StatisticsItemViewHolder vh =
+          new MenuAdapterHolders.StatisticsItemViewHolder(view);
+      initViewHolder(vh, view, parent);
+      return vh;
+    }
+
+    View view = inflater.inflate(R.layout.list_menu_item, parent, false);
+    MenuAdapterHolders.MenuItemViewHolder vh = new MenuAdapterHolders.MenuItemViewHolder(view);
+    initViewHolder(vh, view, parent);
+    return vh;
+  }
+
+  @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    if (holder instanceof MenuAdapterHolders.StatisticsItemViewHolder) {
+      bindViewHolder((MenuAdapterHolders.StatisticsItemViewHolder) holder, position);
+    } else {
+      bindViewHolder((MenuAdapterHolders.MenuItemViewHolder) holder, position);
+    }
+  }
+
+  public void initViewHolder(MenuAdapterHolders.MenuItemViewHolder vh, View view,
       ViewGroup parent) {
     vh.icon.setColorFilter(context.getResources().getColor(R.color.secondary_text));
   }
 
-  @Override public void bindViewHolder(MenuAdapterHolders.MenuItemViewHolder vh, int position) {
+  public void bindViewHolder(MenuAdapterHolders.MenuItemViewHolder vh, int position) {
     final Label label = items.get(position);
     vh.icon.setImageResource(label.getIconRes());
     vh.name.setText(label.getName());
@@ -97,7 +105,7 @@ public class MenuAdapter extends ListAdapter<List<Label>> implements MenuAdapter
     });
   }
 
-  @Override public void initViewHolder(MenuAdapterHolders.StatisticsItemViewHolder vh, View view,
+  public void initViewHolder(MenuAdapterHolders.StatisticsItemViewHolder vh, View view,
       ViewGroup parent) {
     vh.icon.setColorFilter(context.getResources().getColor(R.color.secondary_text));
     vh.itemView.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +115,6 @@ public class MenuAdapter extends ListAdapter<List<Label>> implements MenuAdapter
     });
   }
 
-  @Override
   public void bindViewHolder(MenuAdapterHolders.StatisticsItemViewHolder vh, int position) {
 
   }

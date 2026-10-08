@@ -1,48 +1,57 @@
-apply plugin: 'findbugs'
+configurations {
+  findbugsTool
+}
+
+dependencies {
+  findbugsTool 'com.google.code.findbugs:findbugs:3.0.1'
+}
 
 afterEvaluate {
   def variants = plugins.hasPlugin('com.android.application') ? android.applicationVariants :
       android.libraryVariants
 
-  variants.each { variant ->
-    def task = tasks.create("findBugs${variant.name.capitalize()}", FindBugs)
+  variants.all { variant ->
+    def variantName = variant.name.capitalize()
+    def javaCompileProvider = variant.javaCompileProvider
 
-    task.group = 'verification'
-    task.description = "Run FindBugs for the ${variant.description}."
+    def findbugsTask = tasks.register("findBugs${variantName}", JavaExec) {
+      group = 'verification'
+      description = "Run FindBugs for the ${variant.name} variant."
 
-    task.effort = 'max'
+      mainClass.set('edu.umd.cs.findbugs.FindBugs2')
+      classpath = configurations.findbugsTool
+      dependsOn javaCompileProvider
 
-    task.reportLevel = 'high'
-    task.reports {
-      xml {
-        enabled = false
-      }
-      html {
-        enabled = true
+      doFirst {
+        def javaCompile = javaCompileProvider.get()
+        def classesDir = javaCompile.destinationDirectory.get().asFile
+        def reportFile = layout.buildDirectory.file("reports/findbugs/${variant.name}.html").get().asFile
+        def filterFile = rootProject.file('findbugs-filter.xml')
+        def auxClasspath = javaCompile.classpath.plus(project.files(android.bootClasspath))
+
+        reportFile.parentFile.mkdirs()
+
+        args = [
+            '-textui',
+            '-effort:max',
+            '-high',
+            '-html',
+            '-output',
+            reportFile.absolutePath,
+            '-auxclasspath',
+            auxClasspath.asPath
+        ]
+
+        if (filterFile.exists()) {
+          args += ['-exclude', filterFile.absolutePath]
+        }
+
+        args += classesDir.absolutePath
       }
     }
 
-    def variantCompile = variant.javaCompile
-
-    task.classes = fileTree(variantCompile.destinationDir)
-    task.source = variantCompile.source
-    task.classpath = variantCompile.classpath.plus(project.files(android.bootClasspath))
-
-    def variantDir = file(variantCompile.destinationDir)
-    def pathToFilter = variantDir.parentFile.parentFile.parentFile.parentFile.toString() +
-        "/findbugs-filter.xml"
-
-
-
-    def filterFile = file(pathToFilter)
-
-    println("File should  $pathToFilter " + filterFile.exists())
-    if (filterFile.exists()) {
-      task.excludeFilter = filterFile
-      println("File filter $filterFile")
+    tasks.named('check').configure {
+      dependsOn findbugsTask
     }
-
-    task.dependsOn(variantCompile)
-    tasks.getByName('check').dependsOn(task)
   }
 }

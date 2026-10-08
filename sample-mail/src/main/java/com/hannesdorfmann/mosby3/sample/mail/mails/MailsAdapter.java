@@ -20,10 +20,8 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.text.Html;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.hannesdorfmann.annotatedadapter.annotation.ViewField;
-import com.hannesdorfmann.annotatedadapter.annotation.ViewType;
+import android.view.ViewGroup;
+import androidx.recyclerview.widget.RecyclerView;
 import com.hannesdorfmann.mosby3.sample.mail.R;
 import com.hannesdorfmann.mosby3.sample.mail.base.view.ListAdapter;
 import com.hannesdorfmann.mosby3.sample.mail.model.contact.Person;
@@ -39,7 +37,9 @@ import java.util.Locale;
 /**
  * @author Hannes Dorfmann
  */
-public class MailsAdapter extends ListAdapter<List<Mail>> implements MailsAdapterBinder {
+public class MailsAdapter extends ListAdapter<List<Mail>> {
+
+  public static final int VIEW_TYPE_MAIL = 0;
 
   public interface MailClickedListener {
     public void onMailClicked(MailsAdapterHolders.MailViewHolder vh, Mail mail);
@@ -52,16 +52,6 @@ public class MailsAdapter extends ListAdapter<List<Mail>> implements MailsAdapte
   public interface PersonClickListener {
     public void onPersonClicked(Person person);
   }
-
-  @ViewType(
-      layout = R.layout.list_mail_item,
-      views = {
-          @ViewField(id = R.id.senderPic, name = "senderPic", type = ImageView.class),
-          @ViewField(id = R.id.subject, name = "subject", type = TextView.class),
-          @ViewField(id = R.id.message, name = "message", type = TextView.class),
-          @ViewField(id = R.id.date, name = "date", type = TextView.class),
-          @ViewField(id = R.id.starButton, name = "star", type = StarView.class)
-      }) public final int mail = 0;
 
   private MailClickedListener clickListener;
   private MailStarListner starListner;
@@ -76,7 +66,20 @@ public class MailsAdapter extends ListAdapter<List<Mail>> implements MailsAdapte
     this.personClickListener = personClickListener;
   }
 
-  @Override public void bindViewHolder(final MailsAdapterHolders.MailViewHolder vh, int position) {
+  @Override public int getItemViewType(int position) {
+    return VIEW_TYPE_MAIL;
+  }
+
+  @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    View view = inflater.inflate(R.layout.list_mail_item, parent, false);
+    return new MailsAdapterHolders.MailViewHolder(view);
+  }
+
+  @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    bindViewHolder((MailsAdapterHolders.MailViewHolder) holder, position);
+  }
+
+  public void bindViewHolder(final MailsAdapterHolders.MailViewHolder vh, int position) {
     final Mail mail = items.get(position);
 
     vh.senderPic.setImageResource(mail.getSender().getImageRes());

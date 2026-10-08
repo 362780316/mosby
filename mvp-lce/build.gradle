@@ -55,6 +55,6 @@ android {
 }
 
 dependencies {
-  compile project(':viewstate')
-  testCompile 'junit:junit:' + rootProject.ext.junitVersion
+  api project(':viewstate')
+  testImplementation 'junit:junit:' + rootProject.ext.junitVersion
 }

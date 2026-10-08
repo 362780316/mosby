@@ -19,8 +19,8 @@ package com.hannesdorfmann.mosby3.sample.mvi.view.shoppingcartlabel;
 
 import android.content.Context;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatButton;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import android.util.AttributeSet;
 import com.hannesdorfmann.mosby3.ViewGroupMviDelegate;
 import com.hannesdorfmann.mosby3.ViewGroupMviDelegateCallback;

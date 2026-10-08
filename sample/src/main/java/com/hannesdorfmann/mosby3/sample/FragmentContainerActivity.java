@@ -17,8 +17,8 @@
 package com.hannesdorfmann.mosby3.sample;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
 import com.hannesdorfmann.mosby3.sample.mvp.customviewstate.MyCustomFragment;
 import com.hannesdorfmann.mosby3.sample.mvp.lce.fragment.CountriesFragment;

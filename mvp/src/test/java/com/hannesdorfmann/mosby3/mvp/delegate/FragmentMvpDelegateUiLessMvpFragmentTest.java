@@ -1,10 +1,12 @@
 package com.hannesdorfmann.mosby3.mvp.delegate;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 import com.hannesdorfmann.mosby3.mvp.MvpFragment;
 import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
@@ -12,16 +14,19 @@ import com.hannesdorfmann.mosby3.mvp.MvpView;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 /**
  * @author Hannes Dorfmann
  */
 @RunWith(RobolectricTestRunner.class) @Config(manifest = Config.NONE)
 public class FragmentMvpDelegateUiLessMvpFragmentTest {
+
+  public static class TestActivity extends FragmentActivity {
+  }
 
   public static class UiLessFragment extends MvpFragment<MvpView, MvpPresenter<MvpView>> {
 
@@ -45,7 +50,7 @@ public class FragmentMvpDelegateUiLessMvpFragmentTest {
 
   @Test() public void uiLessShouldFail() {
     try {
-      SupportFragmentTestUtil.startVisibleFragment(new UiLessFragment());
+      startVisibleFragment(new UiLessFragment());
       Assert.fail("Exception expected");
     } catch (IllegalStateException e) {
       Assert.assertEquals(
@@ -55,6 +60,14 @@ public class FragmentMvpDelegateUiLessMvpFragmentTest {
   }
 
   @Test public void correctUi() {
-    SupportFragmentTestUtil.startVisibleFragment(new CorrectUiFragment());
+    startVisibleFragment(new CorrectUiFragment());
+  }
+
+  private static void startVisibleFragment(Fragment fragment) {
+    FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).setup().get();
+    activity.getSupportFragmentManager()
+        .beginTransaction()
+        .add(android.R.id.content, fragment)
+        .commitNow();
   }
 }

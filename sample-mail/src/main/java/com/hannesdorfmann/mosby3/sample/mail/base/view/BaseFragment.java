@@ -18,14 +18,13 @@
 package com.hannesdorfmann.mosby3.sample.mail.base.view;
 
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
-import com.hannesdorfmann.fragmentargs.FragmentArgs;
 
 import butterknife.Unbinder;
 import icepick.Icepick;
@@ -39,8 +38,8 @@ public abstract class BaseFragment extends Fragment {
   private Unbinder unbinder;
 
   @Override public void onCreate(Bundle savedInstanceState) {
+    injectDependencies();
     super.onCreate(savedInstanceState);
-    FragmentArgs.inject(this);
   }
 
   @LayoutRes protected abstract int getLayoutRes();
@@ -58,7 +57,6 @@ public abstract class BaseFragment extends Fragment {
   }
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    injectDependencies();
     super.onViewCreated(view, savedInstanceState);
     unbinder = ButterKnife.bind(this, view);
   }

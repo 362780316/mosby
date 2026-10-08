@@ -19,7 +19,7 @@ package com.hannesdorfmann.mosby3.mvi.integrationtest.backstack;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import com.hannesdorfmann.mosby3.mvi.integrationtest.R;
 import com.hannesdorfmann.mosby3.mvi.integrationtest.backstack.first.FirstMviFragment;
 import com.hannesdorfmann.mosby3.mvi.integrationtest.backstack.first.FirstPresenter;

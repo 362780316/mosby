@@ -5,8 +5,8 @@ import android.animation.PropertyValuesHolder;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
 import android.transition.TransitionInflater;
 import android.transition.TransitionSet;
 import android.view.View;
@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.mosby3.sample.mail.IntentStarter;
 import com.hannesdorfmann.mosby3.sample.mail.MailApplication;
 import com.hannesdorfmann.mosby3.sample.mail.R;
@@ -50,13 +49,21 @@ import butterknife.OnClick;
 public class DetailsFragment extends AuthFragment<TextView, Mail, DetailsView, DetailsPresenter>
     implements DetailsView, View.OnClickListener {
 
-  @Arg int mailId;
-  @Arg String subject;
-  @Arg int senderProfilePic;
-  @Arg String senderName;
-  @Arg String senderEmail;
-  @Arg long date;
-  @Arg boolean starred;
+  private static final String KEY_MAIL_ID = "mailId";
+  private static final String KEY_SUBJECT = "subject";
+  private static final String KEY_SENDER_PROFILE_PIC = "senderProfilePic";
+  private static final String KEY_SENDER_NAME = "senderName";
+  private static final String KEY_SENDER_EMAIL = "senderEmail";
+  private static final String KEY_DATE = "date";
+  private static final String KEY_STARRED = "starred";
+
+  int mailId;
+  String subject;
+  int senderProfilePic;
+  String senderName;
+  String senderEmail;
+  long date;
+  boolean starred;
 
   @Inject IntentStarter intentStarter;
 
@@ -77,6 +84,33 @@ public class DetailsFragment extends AuthFragment<TextView, Mail, DetailsView, D
 
   // The loaded data
   private Mail mail;
+
+  public static DetailsFragment newInstance(long date, int mailId, String senderEmail,
+      String senderName, int senderProfilePic, boolean starred, String subject) {
+    DetailsFragment fragment = new DetailsFragment();
+    Bundle args = new Bundle();
+    args.putLong(KEY_DATE, date);
+    args.putInt(KEY_MAIL_ID, mailId);
+    args.putString(KEY_SENDER_EMAIL, senderEmail);
+    args.putString(KEY_SENDER_NAME, senderName);
+    args.putInt(KEY_SENDER_PROFILE_PIC, senderProfilePic);
+    args.putBoolean(KEY_STARRED, starred);
+    args.putString(KEY_SUBJECT, subject);
+    fragment.setArguments(args);
+    return fragment;
+  }
+
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Bundle args = getArguments();
+    date = args.getLong(KEY_DATE);
+    mailId = args.getInt(KEY_MAIL_ID);
+    senderEmail = args.getString(KEY_SENDER_EMAIL);
+    senderName = args.getString(KEY_SENDER_NAME);
+    senderProfilePic = args.getInt(KEY_SENDER_PROFILE_PIC);
+    starred = args.getBoolean(KEY_STARRED);
+    subject = args.getString(KEY_SUBJECT);
+  }
 
   @Override public AuthViewState<Mail, DetailsView> createViewState() {
     return new AuthParcelableDataViewState<>();

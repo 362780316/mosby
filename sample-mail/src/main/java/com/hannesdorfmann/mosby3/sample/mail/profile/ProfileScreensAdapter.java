@@ -1,12 +1,12 @@
 package com.hannesdorfmann.mosby3.sample.mail.profile;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import com.hannesdorfmann.mosby3.sample.mail.model.contact.Person;
 import com.hannesdorfmann.mosby3.sample.mail.model.contact.ProfileScreen;
-import com.hannesdorfmann.mosby3.sample.mail.profile.about.AboutFragmentBuilder;
-import com.hannesdorfmann.mosby3.sample.mail.profile.mails.ProfileMailsFragmentBuilder;
+import com.hannesdorfmann.mosby3.sample.mail.profile.about.AboutFragment;
+import com.hannesdorfmann.mosby3.sample.mail.profile.mails.ProfileMailsFragment;
 import java.util.List;
 
 /**
@@ -34,10 +34,10 @@ public class ProfileScreensAdapter extends FragmentPagerAdapter {
 
     ProfileScreen screen = screens.get(position);
     if (screen.getType() == ProfileScreen.TYPE_MAILS) {
-      return new ProfileMailsFragmentBuilder(person).build();
+      return ProfileMailsFragment.newInstance(person);
     }
     if (screen.getType() == ProfileScreen.TYPE_ABOUT) {
-      return new AboutFragmentBuilder(person).build();
+      return AboutFragment.newInstance(person);
     }
 
     throw new RuntimeException("Unknown Profile Screen (no fragment associated with this type");

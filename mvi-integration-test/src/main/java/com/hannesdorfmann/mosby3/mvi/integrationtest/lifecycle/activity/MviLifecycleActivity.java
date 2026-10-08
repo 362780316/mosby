@@ -19,7 +19,7 @@ package com.hannesdorfmann.mosby3.mvi.integrationtest.lifecycle.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import com.hannesdorfmann.mosby3.mvi.MviActivity;
 import com.hannesdorfmann.mosby3.mvi.integrationtest.R;

@@ -17,18 +17,22 @@
 package com.hannesdorfmann.mosby3.sample.mail.base.view;
 
 import android.content.Context;
-import com.hannesdorfmann.annotatedadapter.support.recyclerview.SupportAnnotatedAdapter;
+import android.view.LayoutInflater;
+import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 /**
  * @author Hannes Dorfmann
  */
-public class ListAdapter<T extends List>extends SupportAnnotatedAdapter {
+public abstract class ListAdapter<T extends List> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+  protected final Context context;
+  protected final LayoutInflater inflater;
   protected T items;
 
   public ListAdapter(Context context) {
-    super(context);
+    this.context = context;
+    this.inflater = LayoutInflater.from(context);
   }
 
   @Override public int getItemCount() {

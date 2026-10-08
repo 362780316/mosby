@@ -16,8 +16,8 @@
 
 package com.hannesdorfmann.mosby3.mvp;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.UiThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
 
 /**
  * The base interface for each mvp presenter.

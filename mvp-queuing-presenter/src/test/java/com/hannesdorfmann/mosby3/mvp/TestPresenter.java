@@ -1,6 +1,6 @@
 package com.hannesdorfmann.mosby3.mvp;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * @author Hannes Dorfmann

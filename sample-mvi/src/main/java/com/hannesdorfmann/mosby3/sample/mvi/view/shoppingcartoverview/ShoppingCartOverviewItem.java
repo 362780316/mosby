@@ -17,7 +17,7 @@
 
 package com.hannesdorfmann.mosby3.sample.mvi.view.shoppingcartoverview;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import com.hannesdorfmann.mosby3.sample.mvi.businesslogic.model.Product;
 
 /**

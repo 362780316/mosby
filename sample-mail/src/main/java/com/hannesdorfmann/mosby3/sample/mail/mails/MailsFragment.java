@@ -3,12 +3,11 @@ package com.hannesdorfmann.mosby3.sample.mail.mails;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
-import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.mosby3.sample.mail.IntentStarter;
 import com.hannesdorfmann.mosby3.sample.mail.MailApplication;
 import com.hannesdorfmann.mosby3.sample.mail.R;
@@ -29,13 +28,28 @@ import butterknife.OnClick;
 public class MailsFragment extends BaseMailsFragment<MailsView, MailsPresenter>
     implements MailsView, MailsAdapter.MailClickedListener, MailsAdapter.MailStarListner {
 
-  @Arg Label label;
+  private static final String KEY_LABEL = "label";
+
+  Label label;
 
   @Inject IntentStarter intentStarter;
 
   @BindView(R.id.createMail) FloatingActionButton createMailButton;
 
   MailsComponent mailsComponent;
+
+  public static MailsFragment newInstance(Label label) {
+    MailsFragment fragment = new MailsFragment();
+    Bundle args = new Bundle();
+    args.putParcelable(KEY_LABEL, label);
+    fragment.setArguments(args);
+    return fragment;
+  }
+
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    label = getArguments().getParcelable(KEY_LABEL);
+  }
 
   @Override protected int getLayoutRes() {
     return R.layout.fragment_mails;

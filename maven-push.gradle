@@ -14,11 +14,19 @@
  * limitations under the License.
  */
 
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 def isReleaseBuild() {
-  return VERSION_NAME.contains("SNAPSHOT") == false
+  return rootProject.ext.publishedVersion.contains("SNAPSHOT") == false
+}
+
+def shouldSignPublication() {
+  return isReleaseBuild() && gradle.taskGraph.allTasks.any {
+    it.name.startsWith('publish') &&
+        it.name != 'publishToMavenLocal' &&
+        !it.name.endsWith('ToMavenLocal')
+  }
 }
 
 def getReleaseRepositoryUrl() {
@@ -39,105 +47,95 @@ def getRepositoryPassword() {
   return hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : ""
 }
 
-afterEvaluate { project ->
-  uploadArchives {
-    repositories {
-      mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-        /*
-                pom.withXml {
-                  asNode().children().first().parent()
-                      .appendNode('repositories')
-                        .appendNode('repository')
-                          .appendNode('id', 'clojars').parent()
-                          .appendNode('url', 'https://clojars.org/repo/')
-                }
-        */
+def configurePom = { pom ->
+  pom.name = POM_NAME
+  pom.description = POM_DESCRIPTION
+  pom.url = POM_URL
+  pom.packaging = POM_PACKAGING
 
-        pom.groupId = GROUP
-        pom.artifactId = POM_ARTIFACT_ID
-        pom.version = VERSION_NAME
+  pom.scm {
+    url = POM_SCM_URL
+    connection = POM_SCM_CONNECTION
+    developerConnection = POM_SCM_DEV_CONNECTION
+  }
 
-        repository(url: getReleaseRepositoryUrl()) {
-          authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
-        }
-        snapshotRepository(url: getSnapshotRepositoryUrl()) {
-          authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
-        }
-
-        pom.project {
-          name POM_NAME
-          packaging POM_PACKAGING
-          description POM_DESCRIPTION
-          url POM_URL
-
-          scm {
-            url POM_SCM_URL
-            connection POM_SCM_CONNECTION
-            developerConnection POM_SCM_DEV_CONNECTION
-          }
-
-          licenses {
-            license {
-              name POM_LICENCE_NAME
-              url POM_LICENCE_URL
-              distribution POM_LICENCE_DIST
-            }
-          }
-
-          developers {
-            developer {
-              id POM_DEVELOPER_ID
-              name POM_DEVELOPER_NAME
-            }
-          }
-        }
-
-
-        // Resolve dependencies to other modules
-        pom.whenConfigured { pom ->
-          pom.dependencies.findAll { dep -> dep.groupId == rootProject.name }.collect { dep ->
-            dep.groupId = pom.groupId = project.GROUP
-            dep.version = pom.version = project.VERSION_NAME
-          }
-        }
-      }
+  pom.licenses {
+    license {
+      name = POM_LICENCE_NAME
+      url = POM_LICENCE_URL
+      distribution = POM_LICENCE_DIST
     }
   }
 
+  pom.developers {
+    developer {
+      id = POM_DEVELOPER_ID
+      name = POM_DEVELOPER_NAME
+    }
+  }
+}
 
-  signing {
-    required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
-    sign configurations.archives
+afterEvaluate {
+  tasks.register('androidSourcesJar', Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
   }
 
-
-  task androidJavadocs(type: Javadoc) {
+  tasks.register('androidJavadocs', Javadoc) {
     source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += project.files(android.getBootClasspath())
+
+    def releaseVariant = android.libraryVariants.find { it.name == 'release' }
+    if (releaseVariant != null) {
+      dependsOn releaseVariant.javaCompileProvider
+      classpath += releaseVariant.javaCompileProvider.get().classpath
+    }
+
+    failOnError = false
 
     if (JavaVersion.current().isJava8Compatible()) {
-      allprojects {
-        tasks.withType(Javadoc) {
-          options.addStringOption('Xdoclint:none', '-quiet')
-        }
+      options.addStringOption('Xdoclint:none', '-quiet')
+    }
+  }
+
+  tasks.register('androidJavadocsJar', Jar) {
+    dependsOn tasks.named('androidJavadocs')
+    archiveClassifier.set('javadoc')
+    from tasks.named('androidJavadocs').map { it.destinationDir }
+  }
+
+  publishing {
+    publications {
+      release(MavenPublication) {
+        from components.release
+        artifact tasks.named('androidSourcesJar')
+        artifact tasks.named('androidJavadocsJar')
+
+        groupId = rootProject.ext.publishedGroupId
+        artifactId = POM_ARTIFACT_ID
+        version = rootProject.ext.publishedVersion
+
+        pom(configurePom)
       }
     }
 
+    repositories {
+      maven {
+        url = uri(isReleaseBuild() ? getReleaseRepositoryUrl() : getSnapshotRepositoryUrl())
+        credentials {
+          username = getRepositoryUsername()
+          password = getRepositoryPassword()
+        }
+      }
+    }
   }
 
-  task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
-    classifier = 'javadoc'
-    from androidJavadocs.destinationDir
+  signing {
+    required { shouldSignPublication() }
+    sign publishing.publications.release
   }
 
-  task androidSourcesJar(type: Jar) {
-    classifier = 'sources'
-    from android.sourceSets.main.java.sourceFiles
-  }
-
-  artifacts {
-    archives androidSourcesJar
-    archives androidJavadocsJar
+  tasks.register('uploadArchives') {
+    dependsOn tasks.named('publish')
   }
 }

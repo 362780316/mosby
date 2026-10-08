@@ -27,24 +27,22 @@ android {
 
 
 dependencies {
-  compile project(':mvp-lce')
-  compile project(':mvp-queuing-presenter')
+  implementation project(':mvp-lce')
+  implementation project(':mvp-queuing-presenter')
 
-  compile 'com.android.support:design:'+ rootProject.ext.supportLibVersion
-  compile 'com.android.support:recyclerview-v7:'+ rootProject.ext.supportLibVersion
-  compile 'com.android.support:appcompat-v7:' + rootProject.ext.supportLibVersion
+  implementation 'com.google.android.material:material:' + rootProject.ext.materialVersion
+  implementation 'androidx.recyclerview:recyclerview:' + rootProject.ext.recyclerViewVersion
+  implementation 'androidx.appcompat:appcompat:' + rootProject.ext.appcompatVersion
+  implementation 'androidx.swiperefreshlayout:swiperefreshlayout:' + rootProject.ext.swipeRefreshLayoutVersion
+  implementation 'androidx.viewpager:viewpager:' + rootProject.ext.viewPagerVersion
 
 
-  compile 'com.jakewharton:butterknife:'+rootProject.ext.butterknifeVersion
+  implementation 'com.jakewharton:butterknife:'+rootProject.ext.butterknifeVersion
   annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.butterknifeVersion
 
-  annotationProcessor 'com.hannesdorfmann.annotatedadapter:processor:' + rootProject.ext.annotatedadapterVersion
-  compile 'com.hannesdorfmann.annotatedadapter:annotation:' + rootProject.ext.annotatedadapterVersion
-  compile 'com.hannesdorfmann.annotatedadapter:support-recyclerview:' + rootProject.ext.annotatedadapterVersion
-
-  compile 'com.hannesdorfmann.parcelableplease:annotation:' + rootProject.ext.parcelablepleaseVersion
+  implementation 'com.hannesdorfmann.parcelableplease:annotation:' + rootProject.ext.parcelablepleaseVersion
   annotationProcessor 'com.hannesdorfmann.parcelableplease:processor:' + rootProject.ext.parcelablepleaseVersion
 
 
-  compile 'com.squareup.leakcanary:leakcanary-android:'+ rootProject.ext.leakcanaryVersion
+  implementation 'com.squareup.leakcanary:leakcanary-android:'+ rootProject.ext.leakcanaryVersion
 }

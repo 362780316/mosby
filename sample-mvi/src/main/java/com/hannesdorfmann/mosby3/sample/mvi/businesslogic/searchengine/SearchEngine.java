@@ -17,7 +17,7 @@
 
 package com.hannesdorfmann.mosby3.sample.mvi.businesslogic.searchengine;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import com.hannesdorfmann.mosby3.sample.mvi.businesslogic.http.ProductBackendApiDecorator;
 import com.hannesdorfmann.mosby3.sample.mvi.businesslogic.model.Product;
 import io.reactivex.Observable;

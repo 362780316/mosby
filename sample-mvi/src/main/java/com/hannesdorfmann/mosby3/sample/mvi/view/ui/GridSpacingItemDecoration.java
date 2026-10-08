@@ -18,7 +18,7 @@
 package com.hannesdorfmann.mosby3.sample.mvi.view.ui;
 
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 /**

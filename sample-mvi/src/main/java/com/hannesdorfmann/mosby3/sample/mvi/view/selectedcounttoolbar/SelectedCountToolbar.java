@@ -19,8 +19,8 @@ package com.hannesdorfmann.mosby3.sample.mvi.view.selectedcounttoolbar;
 
 import android.content.Context;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
 import com.hannesdorfmann.mosby3.ViewGroupMviDelegate;

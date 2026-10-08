@@ -1,7 +1,9 @@
 package com.hannesdorfmann.mosby3.sample.mail.search;
 
 import android.content.Context;
-import com.hannesdorfmann.annotatedadapter.annotation.ViewType;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.recyclerview.widget.RecyclerView;
 import com.hannesdorfmann.mosby3.sample.mail.R;
 import com.hannesdorfmann.mosby3.sample.mail.mails.MailsAdapter;
 import com.hannesdorfmann.mosby3.sample.mail.model.mail.Mail;
@@ -10,10 +12,9 @@ import java.util.List;
 /**
  * @author Hannes Dorfmann
  */
-public class SearchResultAdapter extends MailsAdapter implements SearchResultAdapterBinder {
+public class SearchResultAdapter extends MailsAdapter {
 
-  @ViewType(
-      layout = R.layout.list_load_more) public final int loadMore = 1;
+  public static final int VIEW_TYPE_LOAD_MORE = 1;
 
   private boolean showLoadMore = false;
 
@@ -29,10 +30,27 @@ public class SearchResultAdapter extends MailsAdapter implements SearchResultAda
   @Override public int getItemViewType(int position) {
 
     if (showLoadMore && position == items.size()) { // At last position add one
-      return loadMore;
+      return VIEW_TYPE_LOAD_MORE;
     }
 
     return super.getItemViewType(position);
+  }
+
+  @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    if (viewType == VIEW_TYPE_LOAD_MORE) {
+      View view = inflater.inflate(R.layout.list_load_more, parent, false);
+      return new SearchResultAdapterHolders.LoadMoreViewHolder(view);
+    }
+
+    return super.onCreateViewHolder(parent, viewType);
+  }
+
+  @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    if (holder instanceof SearchResultAdapterHolders.LoadMoreViewHolder) {
+      bindViewHolder((SearchResultAdapterHolders.LoadMoreViewHolder) holder, position);
+    } else {
+      super.onBindViewHolder(holder, position);
+    }
   }
 
   public void setLoadMore(boolean enabled) {
@@ -57,7 +75,6 @@ public class SearchResultAdapter extends MailsAdapter implements SearchResultAda
     }
   }
 
-  @Override
   public void bindViewHolder(SearchResultAdapterHolders.LoadMoreViewHolder vh, int position) {
     // Nothing to bind
   }

@@ -17,10 +17,11 @@
 package com.hannesdorfmann.mosby3.sample.mvp;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
-import com.hannesdorfmann.annotatedadapter.annotation.ViewField;
-import com.hannesdorfmann.annotatedadapter.annotation.ViewType;
-import com.hannesdorfmann.annotatedadapter.support.recyclerview.SupportAnnotatedAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 import com.hannesdorfmann.mosby3.sample.R;
 import com.hannesdorfmann.mosby3.sample.mvp.model.Country;
 import java.util.List;
@@ -28,21 +29,13 @@ import java.util.List;
 /**
  * @author Hannes Dorfmann
  */
-public class CountriesAdapter extends SupportAnnotatedAdapter implements CountriesAdapterBinder {
+public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.CountryViewHolder> {
 
-  @ViewType(
-      layout = R.layout.row_text,
-      views = {
-          @ViewField(
-              id = R.id.textView,
-              name = "name",
-              type = TextView.class)
-      }) public final int VIEWTYPE_COUNTRY = 0;
-
+  private final LayoutInflater inflater;
   private List<Country> countries;
 
   public CountriesAdapter(Context context) {
-    super(context);
+    inflater = LayoutInflater.from(context);
   }
 
   public void setCountries(List<Country> countries) {
@@ -57,9 +50,22 @@ public class CountriesAdapter extends SupportAnnotatedAdapter implements Countri
     return countries == null ? 0 : countries.size();
   }
 
-  @Override
-  public void bindViewHolder(CountriesAdapterHolders.VIEWTYPE_COUNTRYViewHolder vh, int position) {
-    vh.name.setText(countries.get(position).getName());
+  @Override public CountryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    View view = inflater.inflate(R.layout.row_text, parent, false);
+    return new CountryViewHolder(view);
+  }
+
+  @Override public void onBindViewHolder(CountryViewHolder holder, int position) {
+    holder.name.setText(countries.get(position).getName());
+  }
+
+  static class CountryViewHolder extends RecyclerView.ViewHolder {
+    final TextView name;
+
+    CountryViewHolder(View itemView) {
+      super(itemView);
+      name = (TextView) itemView.findViewById(R.id.textView);
+    }
   }
 }
 

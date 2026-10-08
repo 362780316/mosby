@@ -17,12 +17,11 @@
 package com.hannesdorfmann.mosby3.sample.mail.base.view;
 
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby3.sample.mail.IntentStarter;
 import com.hannesdorfmann.mosby3.sample.mail.R;
@@ -31,7 +30,7 @@ import javax.inject.Inject;
 
 /**
  * Base fragment that handles displaying Authentication state and LCE. Also includes Butterknife,
- * FragmentArgs and Icepick
+ * Icepick
  *
  * @author Hannes Dorfmann
  */
@@ -43,7 +42,6 @@ public abstract class AuthFragment<AV extends View, M, V extends AuthView<M>, P 
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    FragmentArgs.inject(this);
   }
 
   @LayoutRes protected abstract int getLayoutRes();

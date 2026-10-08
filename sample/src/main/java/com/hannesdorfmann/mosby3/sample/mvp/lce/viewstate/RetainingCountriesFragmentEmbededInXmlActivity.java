@@ -1,7 +1,7 @@
 package com.hannesdorfmann.mosby3.sample.mvp.lce.viewstate;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import com.hannesdorfmann.mosby3.sample.R;
 
 /**

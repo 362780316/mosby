@@ -38,25 +38,27 @@ android {
 
 dependencies {
 
-  compile 'com.android.support:appcompat-v7:' + rootProject.ext.supportLibVersion
-  compile 'com.android.support:support-v4:' + rootProject.ext.supportLibVersion
+  api 'androidx.appcompat:appcompat:' + rootProject.ext.appcompatVersion
+  api 'androidx.legacy:legacy-support-v4:' + rootProject.ext.androidxLegacySupportVersion
+  api 'androidx.collection:collection:' + rootProject.ext.androidxCollectionVersion
+  api 'androidx.core:core:' + rootProject.ext.androidxCoreVersion
+  api 'androidx.customview:customview:' + rootProject.ext.androidxCustomViewVersion
 
-  compile project(':mvp-common')
+  api project(':mvp-common')
 
-  testCompile 'junit:junit:' + rootProject.ext.junitVersion
-  testCompile 'org.mockito:mockito-core:' + rootProject.ext.mockitoVersion
-  //testCompile 'org.mockito:mockito-android:'+ rootProject.ext.mockitoVersion
-
-
-  testCompile "org.robolectric:robolectric:"+rootProject.ext.robolectricVersion
-  testCompile "org.robolectric:shadows-support-v4:"+rootProject.ext.robolectricVersion
+  testImplementation 'junit:junit:' + rootProject.ext.junitVersion
+  testImplementation 'org.mockito:mockito-core:' + rootProject.ext.mockitoVersion
+  //testImplementation 'org.mockito:mockito-android:'+ rootProject.ext.mockitoVersion
 
 
-  testCompile('org.powermock:powermock-api-mockito:' + rootProject.ext.powermockVersion) {
+  testImplementation "org.robolectric:robolectric:"+rootProject.ext.robolectricVersion
+
+
+  testImplementation('org.powermock:powermock-api-mockito:' + rootProject.ext.powermockVersion) {
     exclude module: 'hamcrest-core'
     exclude module: 'objenesis'
   }
-  testCompile('org.powermock:powermock-module-junit4:' + rootProject.ext.powermockVersion) {
+  testImplementation('org.powermock:powermock-module-junit4:' + rootProject.ext.powermockVersion) {
     exclude module: 'hamcrest-core'
     exclude module: 'objenesis'
   }

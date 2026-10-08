@@ -32,7 +32,7 @@ android {
         versionName project.VERSION_NAME
         versionCode Integer.parseInt(project.VERSION_CODE)
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -48,17 +48,18 @@ android {
 }
 
 dependencies {
-    compile project(':mvi')
-    compile "io.reactivex.rxjava2:rxandroid:" + rootProject.ext.rxAndroid2Version
+    implementation project(':mvi')
+    implementation "io.reactivex.rxjava2:rxandroid:" + rootProject.ext.rxAndroid2Version
 
 
-    androidTestCompile 'com.android.support.test:runner:' + rootProject.ext.androidSupportTestVersion
-    androidTestCompile 'com.android.support.test:rules:' + rootProject.ext.androidSupportTestVersion
-    androidTestCompile 'junit:junit:' + rootProject.ext.junitVersion
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:' + rootProject.ext.supportLibVersion
+    androidTestImplementation 'androidx.test:runner:' + rootProject.ext.androidXTestVersion
+    androidTestImplementation 'androidx.test:rules:' + rootProject.ext.androidXTestVersion
+    androidTestImplementation 'junit:junit:' + rootProject.ext.junitVersion
+    implementation 'androidx.appcompat:appcompat:' + rootProject.ext.appcompatVersion
+    implementation 'androidx.constraintlayout:constraintlayout:' + rootProject.ext.constraintLayoutVersion
+    implementation 'com.google.android.material:material:' + rootProject.ext.materialVersion
 }
 
 configurations.all {
-    resolutionStrategy.force 'com.android.support:support-annotations:' + rootProject.ext.supportLibVersion
+    resolutionStrategy.force 'androidx.annotation:annotation:' + rootProject.ext.androidxAnnotationVersion
 }

@@ -18,7 +18,7 @@
 package com.hannesdorfmann.mosby3.utils.fragment.integrationtest.backstack;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import com.hannesdorfmann.mosby3.utils.fragment.integrationtest.R;
 
 public class BackstackActivityWithChildFragments extends AppCompatActivity {
