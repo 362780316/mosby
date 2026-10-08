@@ -17,10 +17,10 @@ package com.hannesdorfmann.mosby3.mvp.delegate;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.os.ParcelableCompat;
-import android.support.v4.os.ParcelableCompatCreatorCallbacks;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.os.ParcelableCompat;
+import androidx.core.os.ParcelableCompatCreatorCallbacks;
 import com.hannesdorfmann.mosby3.MosbySavedState;
 import com.hannesdorfmann.mosby3.mvp.viewstate.RestorableParcelableViewState;
 

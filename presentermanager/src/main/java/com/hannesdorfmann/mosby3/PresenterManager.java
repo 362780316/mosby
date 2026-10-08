@@ -5,10 +5,10 @@ import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.os.Bundle;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.util.ArrayMap;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
@@ -213,6 +213,20 @@ final public class PresenterManager {
    * @return The Activity or throws an Exception if Activity couldnt be determined
    */
   @NonNull public static Activity getActivity(@NonNull Context context) {
+    Activity activity = findActivity(context);
+    if (activity == null) {
+      throw new IllegalStateException("Could not find the surrounding Activity");
+    }
+    return activity;
+  }
+
+  /**
+   * Get the Activity of a context, if one can be found.
+   *
+   * @param context The context
+   * @return The Activity or null if Activity couldnt be determined
+   */
+  @Nullable public static Activity findActivity(@NonNull Context context) {
     if (context == null) {
       throw new NullPointerException("context == null");
     }
@@ -226,7 +240,7 @@ final public class PresenterManager {
       }
       context = ((ContextWrapper) context).getBaseContext();
     }
-    throw new IllegalStateException("Could not find the surrounding Activity");
+    return null;
   }
 
   /**

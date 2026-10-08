@@ -18,8 +18,8 @@
 package com.hannesdorfmann.mosby3.utils.fragment.integrationtest.backstack;
 
 import android.content.pm.ActivityInfo;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.AndroidJUnit4;
 import junit.framework.Assert;
 import org.junit.Ignore;
 import org.junit.Rule;

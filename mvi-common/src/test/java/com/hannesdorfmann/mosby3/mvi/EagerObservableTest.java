@@ -17,7 +17,7 @@
 
 package com.hannesdorfmann.mosby3.mvi;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import com.hannesdorfmann.mosby3.mvp.MvpView;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;

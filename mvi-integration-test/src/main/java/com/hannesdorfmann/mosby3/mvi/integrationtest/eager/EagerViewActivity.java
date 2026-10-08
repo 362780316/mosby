@@ -1,7 +1,7 @@
 package com.hannesdorfmann.mosby3.mvi.integrationtest.eager;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.widget.TextView;
 

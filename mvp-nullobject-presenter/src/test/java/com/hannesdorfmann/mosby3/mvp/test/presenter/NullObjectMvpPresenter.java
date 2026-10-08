@@ -17,7 +17,7 @@
 
 package com.hannesdorfmann.mosby3.mvp.test.presenter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.hannesdorfmann.mosby3.mvp.MvpNullObjectBasePresenter;
 import com.hannesdorfmann.mosby3.mvp.test.data.TestData;

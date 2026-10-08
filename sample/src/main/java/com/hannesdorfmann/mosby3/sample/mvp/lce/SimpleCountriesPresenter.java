@@ -16,7 +16,7 @@
 
 package com.hannesdorfmann.mosby3.sample.mvp.lce;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import com.hannesdorfmann.mosby3.mvp.MvpQueuingBasePresenter;
 import com.hannesdorfmann.mosby3.sample.mvp.CountriesPresenter;

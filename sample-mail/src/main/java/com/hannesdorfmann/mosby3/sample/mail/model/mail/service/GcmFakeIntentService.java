@@ -5,7 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 import com.hannesdorfmann.mosby3.sample.mail.IntentStarter;
 import com.hannesdorfmann.mosby3.sample.mail.MailApplication;
 import com.hannesdorfmann.mosby3.sample.mail.R;

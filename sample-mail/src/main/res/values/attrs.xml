@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <attr name="met_iconLeft" format="reference"/>
+  <attr name="met_iconPadding" format="dimension"/>
+  <attr name="met_baseColor" format="color"/>
+  <attr name="met_primaryColor" format="color"/>
+  <attr name="met_floatingLabel">
+    <enum name="none" value="0"/>
+    <enum name="normal" value="1"/>
+    <enum name="highlight" value="2"/>
+  </attr>
+
+  <attr name="pb_colorComplete" format="color"/>
+  <attr name="pb_colorNormal" format="color"/>
+  <attr name="pb_colorPressed" format="color"/>
+  <attr name="pb_textComplete" format="string"/>
+  <attr name="pb_textProgress" format="string"/>
+
+  <attr name="fab_colorNormal" format="color"/>
+  <attr name="fab_colorPressed" format="color"/>
+  <attr name="fab_colorRipple" format="color"/>
+
+  <attr name="pstsTextAlpha" format="integer"/>
+  <attr name="pstsIndicatorHeight" format="dimension"/>
+
+  <declare-styleable name="DragTopLayout">
+    <attr name="dtlOverDrag" format="boolean"/>
+    <attr name="dtlCollapseOffset" format="dimension"/>
+  </declare-styleable>
+</resources>

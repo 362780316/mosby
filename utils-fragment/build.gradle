@@ -43,5 +43,6 @@ android {
 }
 
 dependencies {
-  compile 'com.android.support:appcompat-v7:'+rootProject.ext.supportLibVersion
+  api 'androidx.appcompat:appcompat:' + rootProject.ext.appcompatVersion
+  api 'androidx.fragment:fragment:' + rootProject.ext.androidxFragmentVersion
 }

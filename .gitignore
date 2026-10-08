@@ -42,6 +42,7 @@ captures/
 
 # Gradle files
 .gradle/
+.gradle-home/
 build/
 .gradle
 

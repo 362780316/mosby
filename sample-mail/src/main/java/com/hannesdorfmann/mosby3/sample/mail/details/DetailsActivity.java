@@ -3,7 +3,7 @@ package com.hannesdorfmann.mosby3.sample.mail.details;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import butterknife.BindView;
 
@@ -47,8 +47,8 @@ public class DetailsActivity extends BaseActivity {
       Person sender = mail.getSender();
 
       DetailsFragment fragment =
-          new DetailsFragmentBuilder(mail.getDate().getTime(), mail.getId(), sender.getEmail(),
-              sender.getName(), sender.getImageRes(), mail.isStarred(), mail.getSubject()).build();
+          DetailsFragment.newInstance(mail.getDate().getTime(), mail.getId(), sender.getEmail(),
+              sender.getName(), sender.getImageRes(), mail.isStarred(), mail.getSubject());
 
       getSupportFragmentManager().beginTransaction()
           .replace(R.id.fragmentContainer, fragment)

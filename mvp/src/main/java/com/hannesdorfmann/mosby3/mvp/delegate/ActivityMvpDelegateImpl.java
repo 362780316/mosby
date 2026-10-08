@@ -18,7 +18,7 @@ package com.hannesdorfmann.mosby3.mvp.delegate;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import com.hannesdorfmann.mosby3.PresenterManager;
 import com.hannesdorfmann.mosby3.mvp.MvpPresenter;

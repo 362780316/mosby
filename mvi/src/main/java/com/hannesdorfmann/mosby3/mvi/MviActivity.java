@@ -2,8 +2,8 @@ package com.hannesdorfmann.mosby3.mvi;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import com.hannesdorfmann.mosby3.ActivityMviDelegate;
 import com.hannesdorfmann.mosby3.ActivityMviDelegateImpl;

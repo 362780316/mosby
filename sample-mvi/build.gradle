@@ -45,50 +45,51 @@ android {
 
 dependencies {
 
-  def retrofitVersion = '2.1.1-SNAPSHOT'
-  def rxbindingVersion = '2.0.0'
+  def retrofitVersion = '2.2.0'
+  def rxbindingVersion = '3.1.0'
   def okHttpVersion = '3.6.0'
 
 
-  compile project(':mvi')
+  implementation project(':mvi')
 
-  compile 'com.android.support:appcompat-v7:' + rootProject.ext.supportLibVersion
-  compile 'com.android.support:recyclerview-v7:' + rootProject.ext.supportLibVersion
-  compile 'com.android.support:transition:' + rootProject.ext.supportLibVersion
-  compile 'com.android.support:cardview-v7:' + rootProject.ext.supportLibVersion
-  compile 'com.android.support:design:' + rootProject.ext.supportLibVersion
+  implementation 'androidx.appcompat:appcompat:' + rootProject.ext.appcompatVersion
+  implementation 'androidx.recyclerview:recyclerview:' + rootProject.ext.recyclerViewVersion
+  implementation 'androidx.transition:transition:' + rootProject.ext.transitionVersion
+  implementation 'androidx.cardview:cardview:' + rootProject.ext.cardViewVersion
+  implementation 'com.google.android.material:material:' + rootProject.ext.materialVersion
+  implementation 'androidx.core:core:' + rootProject.ext.androidxCoreVersion
+  implementation 'androidx.drawerlayout:drawerlayout:' + rootProject.ext.drawerLayoutVersion
+  implementation 'androidx.swiperefreshlayout:swiperefreshlayout:' + rootProject.ext.swipeRefreshLayoutVersion
 
-  compile 'com.sothree.slidinguppanel:library:3.3.1'
+  implementation 'com.jakewharton.timber:timber:4.5.0'
 
-  compile 'com.jakewharton.timber:timber:4.5.0'
-
-  compile 'com.squareup.okhttp3:okhttp:' + okHttpVersion
-  compile 'com.squareup.okhttp3:logging-interceptor:' + okHttpVersion
-
-
-  testCompile 'junit:junit:' + rootProject.ext.junitVersion
-  testCompile 'org.mockito:mockito-core:' + rootProject.ext.mockitoVersion
-  testCompile 'com.squareup.okhttp3:mockwebserver:' + okHttpVersion
+  implementation 'com.squareup.okhttp3:okhttp:' + okHttpVersion
+  implementation 'com.squareup.okhttp3:logging-interceptor:' + okHttpVersion
 
 
-  provided 'com.google.code.findbugs:annotations:3.0.0'
+  testImplementation 'junit:junit:' + rootProject.ext.junitVersion
+  testImplementation 'org.mockito:mockito-core:' + rootProject.ext.mockitoVersion
+  testImplementation 'com.squareup.okhttp3:mockwebserver:' + okHttpVersion
 
-  compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
-  compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
-  compile "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
 
-  compile 'com.jakewharton:butterknife:'+rootProject.ext.butterknifeVersion
+  compileOnly 'com.google.code.findbugs:annotations:3.0.0'
+
+  implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+  implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+  implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+
+  implementation 'com.jakewharton:butterknife:'+rootProject.ext.butterknifeVersion
   annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.butterknifeVersion
 
-  compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-  compile 'com.github.bumptech.glide:glide:3.7.0'
+  implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+  implementation 'com.github.bumptech.glide:glide:4.16.0'
 
-  debugCompile 'com.squareup.leakcanary:leakcanary-android:' + rootProject.ext.leakcanaryVersion
-  releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:' + rootProject.ext.leakcanaryVersion
-  testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:' + rootProject.ext.leakcanaryVersion
+  debugImplementation 'com.squareup.leakcanary:leakcanary-android:' + rootProject.ext.leakcanaryVersion
+  releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:' + rootProject.ext.leakcanaryVersion
+  testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:' + rootProject.ext.leakcanaryVersion
 
-  compile "com.jakewharton.rxbinding2:rxbinding:$rxbindingVersion"
-  compile "com.jakewharton.rxbinding2:rxbinding-support-v4:$rxbindingVersion"
-  compile "com.jakewharton.rxbinding2:rxbinding-design:$rxbindingVersion"
-  compile "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rxbindingVersion"
+  implementation "com.jakewharton.rxbinding3:rxbinding:$rxbindingVersion"
+  implementation "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:$rxbindingVersion"
+  implementation "com.jakewharton.rxbinding3:rxbinding-material:$rxbindingVersion"
+  implementation "com.jakewharton.rxbinding3:rxbinding-recyclerview:$rxbindingVersion"
 }

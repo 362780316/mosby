@@ -1,7 +1,7 @@
 package com.hannesdorfmann.mosby3.sample.mail.base.view;
 
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import android.view.View;
 import android.widget.Toast;
 import com.hannesdorfmann.mosby3.sample.mail.IntentStarter;

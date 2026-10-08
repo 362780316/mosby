@@ -16,7 +16,7 @@
 
 package com.hannesdorfmann.mosby3.mvp.lce;
 
-import android.support.annotation.UiThread;
+import androidx.annotation.UiThread;
 import com.hannesdorfmann.mosby3.mvp.MvpView;
 
 /**

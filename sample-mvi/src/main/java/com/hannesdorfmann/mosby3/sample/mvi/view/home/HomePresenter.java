@@ -17,7 +17,7 @@
 
 package com.hannesdorfmann.mosby3.sample.mvi.view.home;
 
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 import com.hannesdorfmann.mosby3.mvi.MviBasePresenter;
 import com.hannesdorfmann.mosby3.sample.mvi.businesslogic.feed.HomeFeedLoader;
 import com.hannesdorfmann.mosby3.sample.mvi.businesslogic.model.AdditionalItemsLoadable;

@@ -17,7 +17,7 @@
 
 package com.hannesdorfmann.mosby3.mvi.integrationtest.backstack.first;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import com.hannesdorfmann.mosby3.mvi.MviBasePresenter;
 import java.util.concurrent.atomic.AtomicInteger;

@@ -4,20 +4,18 @@ import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import com.hannesdorfmann.mosby3.sample.mail.base.view.BaseActivity;
 import com.hannesdorfmann.mosby3.sample.mail.details.DetailsFragment;
-import com.hannesdorfmann.mosby3.sample.mail.details.DetailsFragmentBuilder;
 import com.hannesdorfmann.mosby3.sample.mail.mails.MailsFragment;
-import com.hannesdorfmann.mosby3.sample.mail.mails.MailsFragmentBuilder;
 import com.hannesdorfmann.mosby3.sample.mail.model.contact.Person;
 import com.hannesdorfmann.mosby3.sample.mail.model.mail.Label;
 import com.hannesdorfmann.mosby3.sample.mail.model.mail.Mail;
@@ -147,7 +145,7 @@ public class MainActivity extends BaseActivity {
     }
 
     getSupportFragmentManager().beginTransaction()
-        .replace(R.id.leftPane, new MailsFragmentBuilder(label).build(), FRAGMENT_TAG_LABEL)
+        .replace(R.id.leftPane, MailsFragment.newInstance(label), FRAGMENT_TAG_LABEL)
         .commit();
 
     if (removeDetailsFragment) {
@@ -160,8 +158,8 @@ public class MainActivity extends BaseActivity {
     rightPane.setVisibility(View.VISIBLE);
     Person sender = mail.getSender();
     DetailsFragment fragment =
-        new DetailsFragmentBuilder(mail.getDate().getTime(), mail.getId(), sender.getEmail(),
-            sender.getName(), sender.getImageRes(), mail.isStarred(), mail.getSubject()).build();
+        DetailsFragment.newInstance(mail.getDate().getTime(), mail.getId(), sender.getEmail(),
+            sender.getName(), sender.getImageRes(), mail.isStarred(), mail.getSubject());
 
     getSupportFragmentManager().beginTransaction()
         .replace(R.id.rightPane, fragment, FRAGMENT_TAG_DETAILS)

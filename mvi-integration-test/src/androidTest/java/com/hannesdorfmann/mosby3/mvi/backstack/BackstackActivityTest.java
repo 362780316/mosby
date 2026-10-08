@@ -17,8 +17,8 @@
 
 package com.hannesdorfmann.mosby3.mvi.backstack;
 
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.AndroidJUnit4;
 import com.hannesdorfmann.mosby3.FragmentMviDelegateImpl;
 import com.hannesdorfmann.mosby3.mvi.integrationtest.backstack.BackstackActivity;
 import org.junit.AfterClass;

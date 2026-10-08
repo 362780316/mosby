@@ -22,7 +22,7 @@
     android:orientation="vertical"
     >
 
-  <android.support.v7.widget.Toolbar
+  <androidx.appcompat.widget.Toolbar
       android:id="@+id/toolbar"
       android:layout_width="match_parent"
       android:layout_height="@dimen/abc_action_bar_default_height_material"
@@ -45,7 +45,7 @@
         />
 
 
-      </android.support.v7.widget.Toolbar>
+      </androidx.appcompat.widget.Toolbar>
 
   <FrameLayout
       android:layout_width="match_parent"

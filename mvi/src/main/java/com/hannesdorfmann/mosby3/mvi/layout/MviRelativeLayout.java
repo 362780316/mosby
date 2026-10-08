@@ -20,7 +20,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 import com.hannesdorfmann.mosby3.ViewGroupMviDelegate;

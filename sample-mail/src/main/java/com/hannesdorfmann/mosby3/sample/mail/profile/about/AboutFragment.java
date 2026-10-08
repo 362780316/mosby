@@ -1,13 +1,12 @@
 package com.hannesdorfmann.mosby3.sample.mail.profile.about;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 
-import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.mosby3.sample.mail.R;
 import com.hannesdorfmann.mosby3.sample.mail.base.view.BaseFragment;
 import com.hannesdorfmann.mosby3.sample.mail.model.contact.Person;
@@ -19,7 +18,9 @@ import java.util.Locale;
  */
 public class AboutFragment extends BaseFragment {
 
-  @Arg Person person;
+  private static final String KEY_PERSON = "person";
+
+  Person person;
 
   @BindView(R.id.email) TextView email;
   @BindView(R.id.birthday) TextView birthday;
@@ -27,6 +28,19 @@ public class AboutFragment extends BaseFragment {
 
   @Override protected int getLayoutRes() {
     return R.layout.fragment_about;
+  }
+
+  public static AboutFragment newInstance(Person person) {
+    AboutFragment fragment = new AboutFragment();
+    Bundle args = new Bundle();
+    args.putParcelable(KEY_PERSON, person);
+    fragment.setArguments(args);
+    return fragment;
+  }
+
+  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    person = getArguments().getParcelable(KEY_PERSON);
   }
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
