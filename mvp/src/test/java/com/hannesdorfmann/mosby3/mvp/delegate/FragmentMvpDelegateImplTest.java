@@ -26,16 +26,11 @@ import com.hannesdorfmann.mosby3.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby3.mvp.MvpView;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * @author Hannes Dorfmann
  */
-@RunWith(PowerMockRunner.class) @PrepareForTest({ Fragment.class })
 public class FragmentMvpDelegateImplTest {
 
   // TODO write test for retaining fragment
@@ -57,13 +52,11 @@ public class FragmentMvpDelegateImplTest {
     Mockito.doCallRealMethod().when(callback).setPresenter(presenter);
     Mockito.doCallRealMethod().when(callback).getPresenter();
 
-    fragment = PowerMockito.mock(Fragment.class);
+    fragment = Mockito.mock(Fragment.class);
     activity = Mockito.mock(FragmentActivity.class);
     application = Mockito.mock(Application.class);
 
     Mockito.when(callback.getMvpView()).thenReturn(view);
-    Mockito.when(fragment.getActivity()).thenReturn(activity);
-
     Mockito.when(activity.getApplication()).thenReturn(application);
 
     delegate = new FragmentMvpDelegateImpl<>(fragment, callback, true, true);
@@ -104,12 +97,11 @@ public class FragmentMvpDelegateImplTest {
     };
 
     MvpPresenter<MvpView> presenter1 = Mockito.mock(MvpPresenter.class);
-    Fragment fragment1 = PowerMockito.mock(Fragment.class);
+    Fragment fragment1 = Mockito.mock(Fragment.class);
     PartialMvpDelegateCallbackImpl callback1 = Mockito.mock(PartialMvpDelegateCallbackImpl.class);
     Mockito.doCallRealMethod().when(callback1).setPresenter(presenter1);
     Mockito.doCallRealMethod().when(callback1).getPresenter();
     Mockito.when(callback1.getMvpView()).thenReturn(view1);
-    Mockito.when(fragment1.getActivity()).thenReturn(activity);
     Mockito.when(callback1.createPresenter()).thenReturn(presenter1);
 
     FragmentMvpDelegateImpl<MvpView, MvpPresenter<MvpView>> keepDelegate =

@@ -37,12 +37,9 @@ android {
 }
 
 dependencies {
-
-  api 'androidx.appcompat:appcompat:' + rootProject.ext.appcompatVersion
-  api 'androidx.legacy:legacy-support-v4:' + rootProject.ext.androidxLegacySupportVersion
-  api 'androidx.collection:collection:' + rootProject.ext.androidxCollectionVersion
-  api 'androidx.core:core:' + rootProject.ext.androidxCoreVersion
-  api 'androidx.customview:customview:' + rootProject.ext.androidxCustomViewVersion
+    implementation 'androidx.collection:collection:' + rootProject.ext.androidxCollectionVersion
+    implementation 'androidx.core:core:' + rootProject.ext.androidxCoreVersion
+    api 'androidx.customview:customview:' + rootProject.ext.androidxCustomViewVersion
 
   api project(':mvp-common')
 

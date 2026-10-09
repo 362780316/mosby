@@ -37,6 +37,10 @@ android {
   */
 }
 
+tasks.withType(Test).configureEach {
+  jvmArgs '--add-opens=java.base/java.lang=ALL-UNNAMED'
+}
+
 dependencies {
 
   api 'androidx.appcompat:appcompat:' + rootProject.ext.appcompatVersion

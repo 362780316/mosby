@@ -50,7 +50,7 @@ public class ViewGroupMvpDelegateImplTest {
 
     presenter = Mockito.mock(MvpPresenter.class);
     callback = Mockito.mock(PartialViewGroupMvpDelegateCallbackImpl.class);
-    Mockito.doCallRealMethod().when(callback).setPresenter(presenter);
+    Mockito.doCallRealMethod().when(callback).setPresenter(Mockito.any(MvpPresenter.class));
     Mockito.doCallRealMethod().when(callback).getPresenter();
     Mockito.doCallRealMethod().when(callback).superOnSaveInstanceState();
 
@@ -131,6 +131,26 @@ public class ViewGroupMvpDelegateImplTest {
     keepDeelgate.onDetachedFromWindow();
   }
 
+  @Test public void noActivityContextDetachesAndDestroysOnEveryDetach() {
+    MvpPresenter<MvpView> secondPresenter = Mockito.mock(MvpPresenter.class);
+    Mockito.when(androidView.getContext()).thenReturn(application);
+    Mockito.when(callback.getContext()).thenReturn(application);
+    Mockito.when(callback.createPresenter()).thenReturn(presenter, secondPresenter);
+
+    delegate = new ViewGroupMvpDelegateImpl<>(androidView, callback, true);
+
+    delegate.onAttachedToWindow();
+    delegate.onDetachedFromWindow();
+    delegate.onAttachedToWindow();
+    delegate.onDetachedFromWindow();
+
+    Mockito.verify(presenter).attachView(view);
+    Mockito.verify(presenter).detachView();
+    Mockito.verify(presenter).destroy();
+    Mockito.verify(secondPresenter).attachView(view);
+    Mockito.verify(secondPresenter).detachView();
+    Mockito.verify(secondPresenter).destroy();
+  }
   private void startViewGroup(int createPresenter, int setPresenter, int attachView) {
     Mockito.when(callback.createPresenter()).thenReturn(presenter);
 

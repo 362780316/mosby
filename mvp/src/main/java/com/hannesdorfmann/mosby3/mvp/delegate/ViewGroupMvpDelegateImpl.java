@@ -81,9 +81,9 @@ public class ViewGroupMvpDelegateImpl<V extends MvpView, P extends MvpPresenter<
     isInEditMode = view.isInEditMode();
 
     if (!isInEditMode) {
-      Activity activity = PresenterManager.findActivity(view.getContext());
+      Activity activity = findActivity(view.getContext());
       if (activity == null) {
-        activity = PresenterManager.findActivity(delegateCallback.getContext());
+        activity = findActivity(delegateCallback.getContext());
       }
       this.activity = activity;
       this.keepPresenterDuringScreenOrientationChange =
@@ -172,6 +172,9 @@ public class ViewGroupMvpDelegateImpl<V extends MvpView, P extends MvpPresenter<
       delegateCallback.setRestoringViewState(true);
     }
     */
+
+    presenterDetached = false;
+    presenterDestroyed = false;
 
     delegateCallback.setPresenter(presenter);
     presenter.attachView(view);
@@ -283,6 +286,10 @@ public class ViewGroupMvpDelegateImpl<V extends MvpView, P extends MvpPresenter<
   }
 
   @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+  }
+
+  private static Activity findActivity(Context context) {
+    return context == null ? null : PresenterManager.findActivity(context);
   }
 
   private void destroyPresenterIfNotDoneYet() {
